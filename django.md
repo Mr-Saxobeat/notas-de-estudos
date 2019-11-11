@@ -16,7 +16,7 @@
 - Editar os campos no `settings.py`:
   - `LANGUAGE_CODE` de acordo com o código da [Lista de códigos de linguagem](https://docs.djangoproject.com/en/2.2/ref/settings/#language-code])
   - `TIME_ZONE` de acordo com a zona de tempo da [Lista de Zonas de Tempo da Wikipédia](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)   
-  - Adicionar linha ao final do arquivo: **STATIC_ROOT = os.path.join(BASE_DIR, 'static')**
+  - Adicionar linha ao final do arquivo: `STATIC_ROOT = os.path.join(BASE_DIR, 'static')`
   - Alterar: `ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']`
   
 # Criando um banco de dados:
@@ -63,4 +63,17 @@
 
  - Prepara um arquivo de migração: `python manage.py makemigrations blog`
  - Aplica o modelo ao banco de dados: `python manage.py migrate blog`
+
+# Django admin
+No arquivo `blog/admin.py`:
+   ```
+   from django.contrib import admin
+   from .models import Post
+   
+   admin.site.register(Post)
+   ```
+   
+   - Criar superuser: `python manage.py createsuperuser`
+   - Mais sobre admin: https://docs.djangoproject.com/en/2.2/ref/contrib/admin/
+   
       
