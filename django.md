@@ -4,6 +4,7 @@
 
 - Criar uma pasta (nome em minúsculo)
 - Criar um enviroment (nome em minúsculo): `python -m venv [myenv]`
+- Para trabalhar com este env mais tarde: `venv\Scripts\activate`
 - Instalar Django:
    - Criar um arquivo requirements.txt
       - Conteúdo: `Django~=2.2.4`
@@ -76,4 +77,83 @@ No arquivo `blog/admin.py`:
    - Criar superuser: `python manage.py createsuperuser`
    - Mais sobre admin: https://docs.djangoproject.com/en/2.2/ref/contrib/admin/
    
+# Deploy
+   - Adicionar os arquivos no .gitignore:
+      ```
+      *.pyc
+      *~
+      __pycache__
+      myenv
+      db.sqlite3
+      /static
+      .DS_Store
+      ```
+## Adicionando ao GitHub
+   - Criar repositório
+   - `git remote add origin https://github.com/<your-github-username>/my-first-blog.git`
+   - `git push -u origin master`
+   - Criar API token no **pythonanywhere**
+   - No bash do **pythonanywhere**:
+      - `pip3.6 install -user pythonanywhere`
+      - `pa_autoconfigure_django.py --python=3.6 https://github.com/<your-github-username>/my-first-blog.git`
+      - `python manage.py createsuperuser`
+   - [Django deployment checklist](https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/)
+   - [Debugging tips on PythonAnywhere website](http://help.pythonanywhere.com/pages/DebuggingImportError)
+   
+# URLs
+   - Para Django apontar a raíz para o blog. Em `mysite/urls.py`:
+      ```
+      from django.contrib import admin
+      from django.urls import path, include
+
+      urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', include('blog.urls')),
+      ]
+      ```
+   - Criar `blog/urls.py`:
+      ```
+      from django.urls import path
+      from . import views
+      
+      """ Atribui a URL raíz para a view chamada post_list
+      urlpatterns = [
+      path('', views.post_list, name='post_list'),
+      ]
+      ```
+      
+# Django views
+   - Em `blog/views.py`:
+      ```
+      from django.shortcuts import render
+
+      # Create your views here.
+      def post_list(request):
+         return render(request, 'blog/post_list.html', {})
+      ```
+   - Cria o arquivo `blog/templates/blog/post_list.html`
+   - Adicione qualquer html:
+      ```
+      <html>
+         <head>
+            <title>Ola's blog</title>
+         </head>
+          <body>
+              <p>Hi there!</p>
+              <p>It works!</p>
+          </body>
+      </html>
+      ```
+   - Atualiza o git:
+      - `git status`
+      - `git add --all .`
+      - `git status`
+      - `git commit -m "Altera o HTML para o site"`
+      - `git push`
+   - No bash do PythonAnywhere:
+      - `cd ~/<your-pythonanywhere-domain>.pythonanywhere.com`
+      - `git pull`
+      - Na página "Web", clique em **Reoload**
+      - Site publicado! :D
+      
       
