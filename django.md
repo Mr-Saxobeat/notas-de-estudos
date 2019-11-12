@@ -30,7 +30,7 @@
   ------
   
   # Django Models
-  # Criando uma aplicação:
+  ## Criando uma aplicação:
   
   - `python manage.py startapp blog`
   - Depois, devemos dizer ao Django para usar o app blog:
@@ -156,4 +156,118 @@ No arquivo `blog/admin.py`:
       - Na página "Web", clique em **Reoload**
       - Site publicado! :D
       
+# Django ORM e QuerySets
+   
+   - Django console: `python manage.py.shell`
+   - Mostrar todos os posts:
+      ````
+      from blog.models import Post
+      
+      Post.objects.all()
+      ````
+   - Criar objeto:
+      ````
+      # Importa modelo de usuário
+      from django.contrib.auth import User
+      
+      # Armazena usuário na variável
+      me = User.objects.get(username='username')
+      
+      # Cria post object
+      Post.objects.create(author=me, title='Sample title', text='Test')
+   - Filtrar objetos:
+      - Retorna todos posts que satisfazem a condição: `Post.objects.filter(author=me)`
+      - Retorna posts com a condição: `Post.objects.filter(title__contains='title')`
+      - `Post.objects.filter(published_date__lte=timezone.now())`
+   - Publicar post: `Post.objects.get(title='Sample title').publish()`
+   - Ordenar: `Post.objects.order_by('created_date')`
+   - Ordem contrária: `Post.objects.order_by('-created_date')`
+   - `Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')`
+   
+# Dados dinâmicos no template
+
+   - Importar os posts model: `from .model import Post`
+   - No arquivo `blog/view.py`:
+      ````
+      from django.shortcuts import render
+      from django.utils import timezone
+      from .models import Post
+      
+      def post_list(request):
+         posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+         return render(request, 'blog/post_list.html', {'posts': post}
+      ````
+# Django templates
+   
+   - Template tags, em `blog/templates/blog/post_list.html`:
+      ````
+      <div>
+         <h1><a href="/">Django Girls Blog</a></h1>
+      </div>
+      
+      {% for post in posts %}
+         <div>
+            <p>published: {{ post.published_date }}</p>
+            <h2><a href="">{{ post.title }}</a></h2>
+            <p>{{ post.text|linebreaksbr }}</p>
+         </div>
+      {% endfor %}
+      ````
+      - Atualizar o banco de dados no **pythonanywhere** e ver como ficou o site.
+      
+# CSS
+   - Instalar Bootstrap:
+      ````
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+      ````
+## Arquivos estáticos:
+   - Pasta `django/blog/static`
+   - Css: `django/blog/static/css/blog.css`
+   - Carregar arquivos estáticos no html: 
+      ````
+      {% load static %}
+      <html>
+         <head>
+            <link rel="stylesheet" href="{% static 'css/blog.css' %}>
+         </head>
+      </html>
+      ````
+# Template extending
+   
+   - Criar um arquivo template base: `blog/templates/blog/base.html`
+   - Usar `template tag` em `base.html`:
+      ````
+      <body>
+          <div class="page-header">
+              <h1><a href="/">Django Girls Blog</a></h1>
+          </div>
+          <div class="content container">
+              <div class="row">
+                  <div class="col-md-8">
+                  {% block content %}
+                  {% endblock %}
+                  </div>
+              </div>
+          </div>
+      </body>
+      ````
+   - No arquivo `post_list.html`:
+      ````
+      {% extends 'blog/base.html' %}
+      
+      {% block content %}
+         {% for post in posts %}
+             <div class="post">
+                 <div class="date">
+                     {{ post.published_date }}
+                 </div>
+                 <h2><a href="">{{ post.title }}</a></h2>
+                 <p>{{ post.text|linebreaksbr }}</p>
+             </div>
+         {% endfor %}
+      {% endblock %}
+      ````
+      
+   
       
