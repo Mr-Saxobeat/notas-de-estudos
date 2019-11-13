@@ -95,7 +95,7 @@ No arquivo `blog/admin.py`:
    - Criar API token no **pythonanywhere**
    - No bash do **pythonanywhere**:
       - `pip3.6 install --user pythonanywhere`
-      - `pa_autoconfigure_django.py --python=3.6 https://github.com/<your-github-username>/my-first-blog.git`
+      - `pa_autoconfigure_django.py --python=3.6 https://github.com/<your-github-username>/my-first-blog.git [--nuke]` 
       - `python manage.py createsuperuser`
    - [Django deployment checklist](https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/)
    - [Debugging tips on PythonAnywhere website](http://help.pythonanywhere.com/pages/DebuggingImportError)
