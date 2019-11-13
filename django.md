@@ -1,4 +1,4 @@
-## Notas seguindo o tutorial da [Django Girls](https://djangogirls.org/)
+# Notas seguindo o tutorial da [Django Girls](https://djangogirls.org/)
 
 # Para começar um projeto:
 
@@ -268,6 +268,24 @@ No arquivo `blog/admin.py`:
          {% endfor %}
       {% endblock %}
       ````
+      
+# Extend your application
+### Criar um template de link para detalhes do post:
+   - Em `blog/templates/blog/post_list.html` no link do título do post:
+      `<h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>`
+### Criar uma URL para o detalhes do post:
+   -  Em `blog/urls.py`:
+      `path('post/<int:pk>', views.post_detail, name='post_detail')` 
+### Adicionar uma view para detalhes do post:
+   - Em `blog/views.py`:
+      ````
+      def post_detail(request, pk):
+         post = get_object_or_404(Post, pk=pk)
+         return render(request, 'blog/post_detail.html', {'post': post})
+      ````
+
+      
+      
       
    
       
