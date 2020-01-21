@@ -71,5 +71,7 @@
   - ``TIME_ZONE = 'America/Sao_Paulo'``
   - ``STATIC_ROOT = os.path.joint(BASE_DIR, 'staticfiles')
 
+# Configurando banco de dados:
+  - `py manage.py ogrinspect [arquivoshapefile] [nomeDoModel] --srid=4326 --mapping > [arquivo destino]`
 
 
