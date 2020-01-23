@@ -75,3 +75,6 @@
   - `py manage.py ogrinspect [arquivoshapefile] [nomeDoModel] --srid=4326 --mapping > [arquivo destino]`
 
 
+# Erro com package SIX:
+  - Remover djang.utils.six
+  - pip install six
