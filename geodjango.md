@@ -72,6 +72,7 @@
   - ``STATIC_ROOT = os.path.joint(BASE_DIR, 'staticfiles')
 
 # Configurando banco de dados:
+  - `sudo -i -u postgres`
   - `py manage.py ogrinspect [arquivoshapefile] [nomeDoModel] --srid=4326 --mapping > [arquivo destino]`
 
 
